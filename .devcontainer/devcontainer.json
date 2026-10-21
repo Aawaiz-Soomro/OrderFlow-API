@@ -1,0 +1,22 @@
+{
+  "name": "OrderFlow API",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "app",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+  "hostRequirements": { "cpus": 2, "memory": "8gb" },
+
+  // Runs once when the codespace is created: restore packages + create the database.
+  "postCreateCommand": "dotnet tool restore && dotnet restore && cd OrderFlow && dotnet ef database update",
+
+  // Runs every time you open the codespace: starts the API.
+  "postAttachCommand": "cd OrderFlow && dotnet run --launch-profile http",
+
+  "forwardPorts": [5152],
+  "portsAttributes": {
+    "5152": { "label": "OrderFlow API (open /swagger)", "onAutoForward": "openBrowser" }
+  },
+
+  "customizations": {
+    "vscode": { "extensions": ["ms-dotnettools.csdevkit"] }
+  }
+}

@@ -1,0 +1,25 @@
+# Two containers: the .NET 10 dev environment ("app") and SQL Server 2022 ("db").
+services:
+  app:
+    image: mcr.microsoft.com/devcontainers/dotnet:10.0
+    volumes:
+      - ../..:/workspaces:cached
+    command: sleep infinity
+    environment:
+      # Overrides the LocalDB connection string in appsettings.json
+      ConnectionStrings__OrderFlowDb: "Server=db,1433;Database=OrderFlowDb;User Id=sa;Password=OrderFlow_Dev123!;TrustServerCertificate=True"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "OrderFlow_Dev123!"   # local development only
+    healthcheck:
+      test: /opt/mssql-tools18/bin/sqlcmd -C -S localhost -U sa -P "$${MSSQL_SA_PASSWORD}" -Q "SELECT 1" -b
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 15s

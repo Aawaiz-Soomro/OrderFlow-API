@@ -34,13 +34,29 @@ How a request flows: **Controller → Service → DbContext → SQL Server**, an
 
 ---
 
-## Prerequisites
+## Run in the browser with GitHub Codespaces (nothing to install)
+
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/Aawaiz-Soomro/OrderFlow-API)
+
+1. Click the badge above (or on GitHub: **Code → Codespaces → Create codespace on main**).
+2. Wait a few minutes the first time. The dev container (`.devcontainer/`) starts SQL Server 2022 in a second container, restores packages, runs `dotnet ef database update`, and starts the API.
+3. When port **5152** opens in a new tab, add **`/swagger`** to the end of the URL.
+
+If the tab doesn't open, go to the **Ports** tab, click the globe icon next to 5152, and add `/swagger`. To restart the API, open a terminal and run `cd OrderFlow && dotnet run`.
+
+To let someone else (e.g. an interviewer) open it, right-click port 5152 in the **Ports** tab and choose **Port Visibility → Public**. The codespace stops on its own after 30 minutes of inactivity. Reopen it from github.com/codespaces.
+
+---
+
+## Run locally
+
+### Prerequisites
 
 - [.NET 10 SDK](https://dotnet.microsoft.com/download)
 - SQL Server. Either one works:
   - **LocalDB** (comes with Visual Studio on Windows). This is the default connection string.
   - **Docker**: `docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=Your_strong_Pass123" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-latest`
-- EF Core CLI tool: `dotnet tool install --global dotnet-ef`
+- EF Core CLI tool: run `dotnet tool restore` in the repo root (installs the version pinned in `dotnet-tools.json`)
 
 If you use Docker or another server, change the connection string in `OrderFlow/appsettings.json`, for example:
 
@@ -48,7 +64,7 @@ If you use Docker or another server, change the connection string in `OrderFlow/
 "OrderFlowDb": "Server=localhost,1433;Database=OrderFlowDb;User Id=sa;Password=Your_strong_Pass123;TrustServerCertificate=True"
 ```
 
-## Apply the database migrations
+### Apply the database migrations
 
 ```bash
 cd OrderFlow
@@ -61,7 +77,7 @@ This creates the `OrderFlowDb` database and applies both migrations:
 
 (If you'd rather run plain SQL in SSMS, `dotnet ef migrations script -o migrate.sql` generates the full script.)
 
-## Run and open Swagger
+### Run and open Swagger
 
 ```bash
 cd OrderFlow
