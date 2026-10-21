@@ -39,6 +39,9 @@ app.UseExceptionHandler();
 app.UseSwagger();
 app.UseSwaggerUI();   // available at /swagger
 
+// Opening the root URL takes you straight to Swagger UI.
+app.MapGet("/", () => Results.Redirect("/swagger")).ExcludeFromDescription();
+
 app.MapControllers();
 
 app.Run();
