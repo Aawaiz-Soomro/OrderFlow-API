@@ -9,7 +9,8 @@
   "postCreateCommand": "dotnet tool restore && dotnet restore && cd OrderFlow && dotnet ef database update",
 
   // Runs every time you open the codespace: starts the API.
-  "postAttachCommand": "cd OrderFlow && dotnet run --launch-profile http",
+  // The "codespaces" profile listens on 0.0.0.0 so Codespaces port forwarding can reach it.
+  "postAttachCommand": "cd OrderFlow && dotnet run --launch-profile codespaces",
 
   "forwardPorts": [5152],
   "portsAttributes": {

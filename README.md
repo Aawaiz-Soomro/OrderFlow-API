@@ -42,7 +42,7 @@ How a request flows: **Controller → Service → DbContext → SQL Server**, an
 2. Wait a few minutes the first time. The dev container (`.devcontainer/`) starts SQL Server 2022 in a second container, restores packages, runs `dotnet ef database update`, and starts the API.
 3. When port **5152** opens in a new tab, add **`/swagger`** to the end of the URL.
 
-If the tab doesn't open, go to the **Ports** tab, click the globe icon next to 5152, and add `/swagger`. To restart the API, open a terminal and run `cd OrderFlow && dotnet run`.
+If the tab doesn't open, go to the **Ports** tab, click the globe icon next to 5152, and add `/swagger`. To restart the API, open a terminal and run `cd OrderFlow && dotnet run --launch-profile codespaces`.
 
 To let someone else (e.g. an interviewer) open it, right-click port 5152 in the **Ports** tab and choose **Port Visibility → Public**. The codespace stops on its own after 30 minutes of inactivity. Reopen it from github.com/codespaces.
 
